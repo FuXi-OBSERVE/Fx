@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-<!-- Mirrored from 192.168.1.205:8001/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Nov 2025 06:07:30 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -921,6 +919,184 @@
             gap: 10px;
         }
         
+        /* 录音录像控制面板样式 */
+        .recording-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+        }
+        
+        .recording-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        
+        .recording-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .recording-time {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        
+        .device-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .recording-preview {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .recording-preview video {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .auto-download-info {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #0066cc;
+            margin-top: 10px;
+        }
+        
+        /* 多选功能相关样式 */
+        .multi-select-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .selected-count {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .multi-select-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .selected-persons-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .selected-person-item {
+            display: inline-block;
+            margin: 4px;
+            padding: 4px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .person-checkbox {
+            display: none;
+        }
+        
+        .select-mode .seat.person {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .select-mode .seat.person.selected {
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            box-shadow: 0 3px 6px rgba(76, 201, 240, 0.3);
+        }
+        
+        .select-mode .seat.person::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .select-mode .seat.person.selected::after {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .batch-add-controls {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .batch-add-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .batch-add-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+        
         @media (max-width: 1200px) {
             .stats-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -934,6 +1110,14 @@
             
             .seat-layout {
                 grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .device-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .batch-add-form {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -967,6 +1151,12 @@
             
             .seat-layout {
                 grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .multi-select-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
             }
         }
         
@@ -1016,6 +1206,8 @@
                 </div>
             </div>
         </header>
+        
+
         
         <div class="stats-grid">
             <!-- 应到 -->
@@ -1184,6 +1376,9 @@
                     <button class="btn btn-info" id="export-layout-btn">
                         <i class="fas fa-download"></i> 导出座位布局
                     </button>
+                    <button class="btn btn-info" id="data-transfer-btn">
+                        <i class="fas fa-exchange-alt"></i> 数据迁移
+                    </button>
                 </div>
             </div>
             
@@ -1202,20 +1397,118 @@
             </div>
         </div>
     </div>
-
-    <!-- 选择人员弹窗 -->
+    
+        <!-- 录音录像控制面板 -->
+        <div class="recording-controls" id="recording-controls">
+            <h2 class="panel-title"><i class="fas fa-video"></i> 录音录像控制</h2>
+            
+            <div class="recording-status" id="recording-status" style="display: none;">
+                <div class="recording-indicator" id="recording-indicator"></div>
+                <span class="recording-time" id="recording-time">00:00:00</span>
+                <span>正在录音录像...</span>
+            </div>
+            
+            <div class="device-selection">
+                <div class="form-group">
+                    <label for="camera-select"><i class="fas fa-camera"></i> 选择摄像头</label>
+                    <select id="camera-select" class="form-control">
+                        <option value="">加载摄像头...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="microphone-select"><i class="fas fa-microphone"></i> 选择麦克风</label>
+                    <select id="microphone-select" class="form-control">
+                        <option value="">加载麦克风...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="recording-preview">
+                <video id="video-preview" autoplay muted playsinline></video>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn btn-success" id="start-recording-btn">
+                    <i class="fas fa-record-vinyl"></i> 开始录制
+                </button>
+                <button class="btn btn-danger" id="stop-recording-btn" disabled>
+                    <i class="fas fa-stop"></i> 停止录制
+                </button>
+                <button class="btn btn-info" id="refresh-devices-btn">
+                    <i class="fas fa-sync-alt"></i> 刷新设备
+                </button>
+            </div>
+            
+            <div class="auto-download-info">
+                <i class="fas fa-info-circle"></i> 系统将每2分钟自动下载录像文件
+            </div>
+        </div>
+        
+    <!-- 选择人员弹窗多选 -->
     <div id="person-select-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title"><i class="fas fa-users"></i> 选择人员</h2>
                 <button class="close-btn" id="close-person-modal">&times;</button>
             </div>
-            <div class="seat-layout" id="person-seat-layout">
+            
+            <!-- 多选功能头部 -->
+            <div class="multi-select-header">
+                <div class="selected-count">已选择: <span id="selected-count">0</span> 人</div>
+                <div>
+                    <button class="btn btn-info btn-sm" id="select-all-btn">
+                        <i class="fas fa-check-double"></i> 全选
+                    </button>
+                    <button class="btn btn-info btn-sm" id="clear-selection-btn">
+                        <i class="fas fa-times"></i> 清空
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 已选择人员列表 -->
+            <div class="selected-persons-list" id="selected-persons-list">
+                <!-- 已选择人员将在这里显示 -->
+            </div>
+            
+            <!-- 座位布局 -->
+            <div class="seat-layout select-mode" id="person-seat-layout">
                 <!-- 座位布局将通过JavaScript动态生成 -->
             </div>
+            
+            <!-- 批量添加控制 -->
+            <div class="batch-add-controls">
+                <div class="batch-add-title">
+                    <i class="fas fa-users"></i> 批量添加设置
+                </div>
+                <div class="batch-add-form">
+                    <div class="form-group">
+                        <label for="batch-category"><i class="fas fa-tag"></i> 类别</label>
+                        <select id="batch-category" class="form-control">
+                            <option value="other">其他</option>
+                            <option value="day-student">走读</option>
+                            <option value="instructor">教官</option>
+                            <option value="student-union">学生会</option>
+                            <option value="leave">请假</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="batch-reason"><i class="fas fa-comment-alt"></i> 离开原因</label>
+                        <select id="batch-reason" class="form-control">
+                            <!-- 原因选项将通过JavaScript动态生成 -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
             <div class="modal-actions">
                 <button class="cancel-btn" id="cancel-person-select">
                     <i class="fas fa-times"></i> 取消
+                </button>
+                <button class="btn btn-primary" id="confirm-batch-add">
+                    <i class="fas fa-user-plus"></i> 批量添加
+                </button>
+                <button class="save-layout-btn" id="confirm-single-add">
+                    <i class="fas fa-check"></i> 确认选择
                 </button>
             </div>
         </div>
@@ -1375,6 +1668,46 @@
         </div>
     </div>
 
+    <!-- 数据迁移弹窗 -->
+    <div id="data-transfer-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-database"></i> 数据迁移</h2>
+                <button class="close-btn" id="close-data-transfer-modal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-file-export"></i> 导出所有数据</label>
+                <p style="margin: 10px 0; color: var(--gray); font-size: 14px;">
+                    导出包含人员数据、座位布局、离开原因的完整备份文件
+                </p>
+                <button class="btn btn-success" id="export-all-data-btn" style="width: 100%;">
+                    <i class="fas fa-download"></i> 导出完整备份
+                </button>
+            </div>
+            <div class="form-group" style="margin-top: 20px;">
+                <label><i class="fas fa-file-import"></i> 导入所有数据</label>
+                <p style="margin: 10px 0; color: var(--gray); font-size: 14px;">
+                    从备份文件恢复所有数据（将覆盖现有数据）
+                </p>
+                <textarea id="import-json-input" class="form-control" rows="8" placeholder="粘贴完整的备份JSON数据..."></textarea>
+                <div style="margin-top: 10px;">
+                    <input type="file" id="file-input" accept=".json" style="display: none;">
+                    <button class="btn btn-info" id="select-file-btn" style="width: 100%;">
+                        <i class="fas fa-folder-open"></i> 选择备份文件
+                    </button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancel-data-transfer">
+                    <i class="fas fa-times"></i> 取消
+                </button>
+                <button class="save-layout-btn" id="confirm-import-all">
+                    <i class="fas fa-file-import"></i> 导入数据
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 数据模型
         let peopleData = {
@@ -1496,6 +1829,22 @@
         // 当前编辑的类别
         let currentEditCategory = 'other';
 
+        // 录音录像相关变量
+        let mediaRecorder = null;
+        let recordedChunks = [];
+        let recordingStream = null;
+        let recordingTimer = null;
+        let recordingStartTime = null;
+        let recordingInterval = null;
+        let isRecording = false;
+
+        // 设备列表
+        let cameras = [];
+        let microphones = [];
+
+        // 多选功能相关变量
+        let selectedPersons = new Set(); // 使用Set存储已选择的人员，避免重复
+
         // 从本地存储加载数据
         function loadData() {
             const savedData = localStorage.getItem('peopleData');
@@ -1574,6 +1923,23 @@
             localStorage.setItem('reasonsByCategory', JSON.stringify(reasonsByCategory));
         }
 
+        // 检查浏览器兼容性
+        function checkCompatibility() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showNotification('您的浏览器不支持录音录像功能，请使用Chrome、Firefox或Edge等现代浏览器', 'warning');
+                document.getElementById('recording-controls').style.display = 'none';
+                return false;
+            }
+            
+            if (typeof MediaRecorder === 'undefined') {
+                showNotification('您的浏览器不支持MediaRecorder API，录音录像功能不可用', 'warning');
+                document.getElementById('recording-controls').style.display = 'none';
+                return false;
+            }
+            
+            return true;
+        }
+
         // 初始化页面
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化原因选择器
@@ -1592,6 +1958,14 @@
             // 初始化离开原因按钮
             renderReasonButtons();
             
+            // 初始化多选功能
+            initMultiSelect();
+            
+            // 检查浏览器兼容性并初始化录音录像功能
+            if (checkCompatibility()) {
+                initRecording();
+            }
+            
             // 添加标题点击事件
             document.getElementById('app-title').addEventListener('click', function() {
                 document.getElementById('clear-history-modal').style.display = 'block';
@@ -1599,6 +1973,466 @@
                 document.getElementById('clear-history-password').focus();
             });
         });
+
+        // 初始化多选功能
+        function initMultiSelect() {
+            // 绑定多选相关按钮事件
+            document.getElementById('select-all-btn').addEventListener('click', selectAllPersons);
+            document.getElementById('clear-selection-btn').addEventListener('click', clearSelection);
+            document.getElementById('confirm-batch-add').addEventListener('click', batchAddPersons);
+            document.getElementById('confirm-single-add').addEventListener('click', confirmSingleSelection);
+            
+            // 初始化批量原因选择器
+            updateBatchReasonOptions();
+            
+            // 监听类别变化，更新原因选项
+            document.getElementById('batch-category').addEventListener('change', updateBatchReasonOptions);
+        }
+
+        // 选择所有人员
+        function selectAllPersons() {
+            selectedPersons.clear();
+            
+            // 从座位布局中获取所有人员
+            for (let row = 0; row < seatLayout.length; row++) {
+                for (let col = 0; col < seatLayout[row].length; col++) {
+                    const person = seatLayout[row][col];
+                    if (person !== '过道' && person !== '空座') {
+                        selectedPersons.add(person);
+                    }
+                }
+            }
+            
+            updateSelectionUI();
+        }
+
+        // 清空选择
+        function clearSelection() {
+            selectedPersons.clear();
+            updateSelectionUI();
+        }
+
+        // 更新批量原因选项
+        function updateBatchReasonOptions() {
+            const category = document.getElementById('batch-category').value;
+            const reasons = reasonsByCategory[category] || [];
+            const selectElement = document.getElementById('batch-reason');
+            
+            // 清空现有选项
+            selectElement.innerHTML = '';
+            
+            // 添加新选项
+            reasons.forEach(reason => {
+                const option = document.createElement('option');
+                option.value = reason;
+                option.textContent = reason;
+                selectElement.appendChild(option);
+            });
+            
+            // 默认选择第一个选项
+            if (reasons.length > 0) {
+                selectElement.value = reasons[0];
+            }
+        }
+
+        // 更新选择UI
+        function updateSelectionUI() {
+            // 更新选择人数
+            document.getElementById('selected-count').textContent = selectedPersons.size;
+            
+            // 更新已选择人员列表
+            const listElement = document.getElementById('selected-persons-list');
+            listElement.innerHTML = '';
+            
+            if (selectedPersons.size === 0) {
+                listElement.innerHTML = '<div style="color: #6c757d; text-align: center;">暂无选择的人员</div>';
+            } else {
+                selectedPersons.forEach(person => {
+                    const item = document.createElement('div');
+                    item.className = 'selected-person-item';
+                    item.textContent = person;
+                    listElement.appendChild(item);
+                });
+            }
+            
+            // 更新座位选择状态
+            updateSeatSelectionState();
+        }
+
+        // 更新座位选择状态
+        function updateSeatSelectionState() {
+            const seatElements = document.querySelectorAll('#person-seat-layout .seat.person');
+            
+            seatElements.forEach(seat => {
+                const personName = seat.textContent;
+                if (selectedPersons.has(personName)) {
+                    seat.classList.add('selected');
+                } else {
+                    seat.classList.remove('selected');
+                }
+            });
+        }
+
+        // 切换人员选择状态
+        function togglePersonSelection(personName) {
+            if (selectedPersons.has(personName)) {
+                selectedPersons.delete(personName);
+            } else {
+                selectedPersons.add(personName);
+            }
+            
+            updateSelectionUI();
+        }
+
+        // 批量添加人员
+        function batchAddPersons() {
+            if (selectedPersons.size === 0) {
+                showNotification('请先选择人员', 'warning');
+                return;
+            }
+            
+            const category = document.getElementById('batch-category').value;
+            const reason = document.getElementById('batch-reason').value;
+            
+            if (!reason) {
+                showNotification('请选择离开原因', 'warning');
+                return;
+            }
+            
+            // 检查人员是否已经在其他类别中
+            for (const personName of selectedPersons) {
+                for (const cat in peopleData) {
+                    if (cat === 'history') continue;
+                    
+                    if (peopleData[cat].some(person => person.name === personName)) {
+                        showNotification(`${personName} 已经在 ${getCategoryName(cat)} 类别中`, 'warning');
+                        return;
+                    }
+                }
+            }
+            
+            // 批量添加人员
+            const now = new Date();
+            let addedCount = 0;
+            
+            selectedPersons.forEach(personName => {
+                const personData = {
+                    id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                    name: personName,
+                    category: category,
+                    reason: reason,
+                    leaveTime: now.toISOString(),
+                    returnTime: null,
+                    isTiming: true
+                };
+                
+                peopleData[category].push(personData);
+                addedCount++;
+            });
+            
+            // 保存数据
+            saveData();
+            
+            // 更新UI
+            updateAllUI();
+            
+            // 关闭弹窗
+            document.getElementById('person-select-modal').style.display = 'none';
+            
+            // 清空选择
+            selectedPersons.clear();
+            
+            // 显示成功提示
+            showNotification(`已批量添加 ${addedCount} 名人员到${getCategoryName(category)}`, 'success');
+        }
+
+        // 确认单人选则（原有功能）
+        function confirmSingleSelection() {
+            if (selectedPersons.size === 0) {
+                showNotification('请先选择人员', 'warning');
+                return;
+            }
+            
+            if (selectedPersons.size > 1) {
+                showNotification('请使用批量添加功能添加多名人员，或只选择一名人员', 'warning');
+                return;
+            }
+            
+            // 获取选择的唯一人员
+            const personName = Array.from(selectedPersons)[0];
+            document.getElementById('person-name').value = personName;
+            document.getElementById('person-select-modal').style.display = 'none';
+            
+            // 清空选择
+            selectedPersons.clear();
+            
+            // 显示成功提示
+            showNotification(`已选择: ${personName}`, 'success');
+        }
+
+        // 初始化录音录像功能
+        function initRecording() {
+            // 加载设备列表
+            loadDevices();
+            
+            // 绑定按钮事件
+            document.getElementById('start-recording-btn').addEventListener('click', startRecording);
+            document.getElementById('stop-recording-btn').addEventListener('click', stopRecording);
+            document.getElementById('refresh-devices-btn').addEventListener('click', loadDevices);
+            
+            // 设备选择变化事件
+            document.getElementById('camera-select').addEventListener('change', updatePreview);
+            document.getElementById('microphone-select').addEventListener('change', updatePreview);
+        }
+
+        // 加载可用设备
+        async function loadDevices() {
+            try {
+                // 请求设备权限
+                await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                
+                // 获取所有设备
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                
+                // 清空现有选项
+                const cameraSelect = document.getElementById('camera-select');
+                const microphoneSelect = document.getElementById('microphone-select');
+                
+                cameraSelect.innerHTML = '<option value="">选择摄像头...</option>';
+                microphoneSelect.innerHTML = '<option value="">选择麦克风...</option>';
+                
+                // 筛选设备
+                cameras = devices.filter(device => device.kind === 'videoinput');
+                microphones = devices.filter(device => device.kind === 'audioinput');
+                
+                // 填充摄像头选项
+                cameras.forEach(camera => {
+                    const option = document.createElement('option');
+                    option.value = camera.deviceId;
+                    option.textContent = camera.label || `摄像头 ${cameraSelect.options.length}`;
+                    cameraSelect.appendChild(option);
+                });
+                
+                // 填充麦克风选项
+                microphones.forEach(microphone => {
+                    const option = document.createElement('option');
+                    option.value = microphone.deviceId;
+                    option.textContent = microphone.label || `麦克风 ${microphoneSelect.options.length}`;
+                    microphoneSelect.appendChild(option);
+                });
+                
+                // 默认选择第一个设备
+                if (cameras.length > 0) {
+                    cameraSelect.value = cameras[0].deviceId;
+                }
+                if (microphones.length > 0) {
+                    microphoneSelect.value = microphones[0].deviceId;
+                }
+                
+                // 更新预览
+                updatePreview();
+                
+                showNotification('设备加载成功', 'success');
+            } catch (error) {
+                console.error('加载设备失败:', error);
+                showNotification('无法访问摄像头或麦克风，请检查权限设置', 'error');
+            }
+        }
+
+        // 更新视频预览
+        async function updatePreview() {
+            const cameraId = document.getElementById('camera-select').value;
+            const microphoneId = document.getElementById('microphone-select').value;
+            const videoPreview = document.getElementById('video-preview');
+            
+            if (!cameraId && !microphoneId) {
+                videoPreview.srcObject = null;
+                return;
+            }
+            
+            try {
+                const constraints = {
+                    video: cameraId ? { deviceId: { exact: cameraId } } : false,
+                    audio: microphoneId ? { deviceId: { exact: microphoneId } } : false
+                };
+                
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                videoPreview.srcObject = stream;
+                
+                // 如果正在录制，停止当前录制并重新开始
+                if (isRecording) {
+                    stopRecording();
+                    setTimeout(startRecording, 1000);
+                }
+            } catch (error) {
+                console.error('更新预览失败:', error);
+                showNotification('无法启动视频预览', 'error');
+            }
+        }
+
+        // 开始录音录像
+        async function startRecording() {
+            const cameraId = document.getElementById('camera-select').value;
+            const microphoneId = document.getElementById('microphone-select').value;
+            
+            if (!cameraId && !microphoneId) {
+                showNotification('请至少选择一个摄像头或麦克风', 'warning');
+                return;
+            }
+            
+            try {
+                const constraints = {
+                    video: cameraId ? { 
+                        deviceId: { exact: cameraId },
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } : false,
+                    audio: microphoneId ? { 
+                        deviceId: { exact: microphoneId },
+                        echoCancellation: true,
+                        noiseSuppression: true
+                    } : false
+                };
+                
+                recordingStream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                // 设置MediaRecorder
+                const options = {
+                    mimeType: 'video/webm;codecs=vp9,opus',
+                    videoBitsPerSecond: 2500000
+                };
+                
+                // 尝试其他编码格式
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options.mimeType = 'video/webm;codecs=vp8,opus';
+                }
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options.mimeType = 'video/webm';
+                }
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options.mimeType = 'video/mp4';
+                }
+                
+                mediaRecorder = new MediaRecorder(recordingStream, options);
+                recordedChunks = [];
+                
+                // 收集数据
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+                
+                // 录制结束处理
+                mediaRecorder.onstop = () => {
+                    downloadRecording();
+                };
+                
+                // 开始录制
+                mediaRecorder.start(1000); // 每1秒收集一次数据
+                
+                isRecording = true;
+                recordingStartTime = new Date();
+                
+                // 更新UI
+                document.getElementById('start-recording-btn').disabled = true;
+                document.getElementById('stop-recording-btn').disabled = false;
+                document.getElementById('recording-status').style.display = 'flex';
+                
+                // 开始计时器
+                updateRecordingTime();
+                recordingInterval = setInterval(updateRecordingTime, 1000);
+                
+                // 设置2分钟自动下载
+                recordingTimer = setTimeout(() => {
+                    if (isRecording) {
+                        stopRecording();
+                        setTimeout(startRecording, 1000); // 立即重新开始录制
+                    }
+                }, 2 * 60 * 1000); // 2分钟
+                
+                showNotification('录音录像已开始，每2分钟自动保存', 'success');
+            } catch (error) {
+                console.error('开始录制失败:', error);
+                showNotification('开始录制失败: ' + error.message, 'error');
+            }
+        }
+
+        // 停止录音录像
+        function stopRecording() {
+            if (!isRecording || !mediaRecorder) return;
+            
+            // 停止录制
+            if (mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+            
+            // 停止所有轨道
+            if (recordingStream) {
+                recordingStream.getTracks().forEach(track => track.stop());
+            }
+            
+            // 清理定时器
+            clearTimeout(recordingTimer);
+            clearInterval(recordingInterval);
+            
+            isRecording = false;
+            
+            // 更新UI
+            document.getElementById('start-recording-btn').disabled = false;
+            document.getElementById('stop-recording-btn').disabled = true;
+            document.getElementById('recording-status').style.display = 'none';
+            document.getElementById('recording-time').textContent = '00:00:00';
+            
+            showNotification('录音录像已停止', 'info');
+        }
+
+        // 更新录制时间显示
+        function updateRecordingTime() {
+            if (!recordingStartTime) return;
+            
+            const now = new Date();
+            const diff = Math.floor((now - recordingStartTime) / 1000);
+            
+            const hours = String(Math.floor(diff / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+            const seconds = String(diff % 60).padStart(2, '0');
+            
+            document.getElementById('recording-time').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // 下载录像文件
+        function downloadRecording() {
+            if (recordedChunks.length === 0) {
+                console.warn('没有可下载的录制数据');
+                return;
+            }
+            
+            try {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const filename = `recording_${timestamp}.webm`;
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.style.display = 'none';
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                URL.revokeObjectURL(url);
+                recordedChunks = [];
+                
+                console.log('录像文件已下载:', filename);
+            } catch (error) {
+                console.error('下载录像失败:', error);
+                showNotification('下载录像文件失败', 'error');
+            }
+        }
 
         // 初始化原因选择器
         function initReasonSelector() {
@@ -1613,7 +2447,14 @@
         function initButtonEvents() {
             // 选择人员按钮
             document.getElementById('select-person-btn').addEventListener('click', function() {
+                // 清空选择
+                selectedPersons.clear();
+                
+                // 打开弹窗
                 document.getElementById('person-select-modal').style.display = 'block';
+                
+                // 更新UI
+                updateSelectionUI();
             });
             
             // 添加人员按钮
@@ -1662,6 +2503,13 @@
             // 导出座位布局按钮
             document.getElementById('export-layout-btn').addEventListener('click', exportSeatLayout);
             
+            // 数据迁移按钮
+            document.getElementById('data-transfer-btn').addEventListener('click', function() {
+                document.getElementById('data-transfer-modal').style.display = 'block';
+                document.getElementById('import-json-input').value = '';
+                document.getElementById('file-input').value = '';
+            });
+            
             // 关闭弹窗按钮
             document.getElementById('close-person-modal').addEventListener('click', function() {
                 document.getElementById('person-select-modal').style.display = 'none';
@@ -1691,6 +2539,10 @@
                 document.getElementById('reason-select-modal').style.display = 'none';
             });
             
+            document.getElementById('close-data-transfer-modal').addEventListener('click', function() {
+                document.getElementById('data-transfer-modal').style.display = 'none';
+            });
+            
             document.getElementById('cancel-person-select').addEventListener('click', function() {
                 document.getElementById('person-select-modal').style.display = 'none';
             });
@@ -1717,6 +2569,10 @@
             
             document.getElementById('cancel-reason-select').addEventListener('click', function() {
                 document.getElementById('reason-select-modal').style.display = 'none';
+            });
+            
+            document.getElementById('cancel-data-transfer').addEventListener('click', function() {
+                document.getElementById('data-transfer-modal').style.display = 'none';
             });
             
             // 清除历史记录相关按钮
@@ -1762,6 +2618,28 @@
             // 确认导入离开原因按钮
             document.getElementById('confirm-reasons-import').addEventListener('click', importReasons);
             
+            // 导出所有数据按钮
+            document.getElementById('export-all-data-btn').addEventListener('click', exportAllData);
+            
+            // 选择文件按钮
+            document.getElementById('select-file-btn').addEventListener('click', function() {
+                document.getElementById('file-input').click();
+            });
+            
+            // 文件选择事件
+            document.getElementById('file-input').addEventListener('change', handleFileSelect);
+            
+            // 确认导入所有数据按钮
+            document.getElementById('confirm-import-all').addEventListener('click', function() {
+                const jsonData = document.getElementById('import-json-input').value;
+                if (jsonData) {
+                    importAllData(jsonData);
+                    document.getElementById('data-transfer-modal').style.display = 'none';
+                } else {
+                    showNotification('请输入要导入的JSON数据', 'warning');
+                }
+            });
+            
             // 点击模态框外部关闭
             window.addEventListener('click', function(event) {
                 const personModal = document.getElementById('person-select-modal');
@@ -1772,6 +2650,7 @@
                 const reasonsImportModal = document.getElementById('reasons-import-modal');
                 const reasonSelectModal = document.getElementById('reason-select-modal');
                 const clearHistoryModal = document.getElementById('clear-history-modal');
+                const dataTransferModal = document.getElementById('data-transfer-modal');
                 
                 if (event.target === personModal) {
                     personModal.style.display = 'none';
@@ -1803,6 +2682,10 @@
                 
                 if (event.target === clearHistoryModal) {
                     clearHistoryModal.style.display = 'none';
+                }
+                
+                if (event.target === dataTransferModal) {
+                    dataTransferModal.style.display = 'none';
                 }
             });
         }
@@ -2032,6 +2915,13 @@
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             
+            // 如果是选择人员模式，添加选择模式类
+            if (containerId === 'person-seat-layout' && !isEditMode) {
+                container.classList.add('select-mode');
+            } else {
+                container.classList.remove('select-mode');
+            }
+            
             for (let row = 0; row < seatLayout.length; row++) {
                 for (let col = 0; col < seatLayout[row].length; col++) {
                     const seatValue = seatLayout[row][col];
@@ -2047,27 +2937,38 @@
                     } else {
                         seat.classList.add('person');
                         seat.textContent = seatValue;
-                    }
-                    
-                    if (isEditMode) {
-                        // 编辑模式下，所有座位都可点击编辑
-                        seat.addEventListener('click', function() {
-                            editSeat(row, col);
-                        });
-                    } else if (!isEditMode && seatValue !== '过道' && seatValue !== '空座') {
-                        // 选择模式下，非空座和非过道座位可点击选择
-                        seat.addEventListener('click', function() {
-                            selectPerson(seatValue);
-                        });
+                        
+                        if (containerId === 'person-seat-layout' && !isEditMode) {
+                            // 选择模式下，添加点击事件用于多选
+                            seat.addEventListener('click', function() {
+                                togglePersonSelection(seatValue);
+                            });
+                        } else if (isEditMode) {
+                            // 编辑模式下，点击编辑座位
+                            seat.addEventListener('click', function() {
+                                editSeat(row, col);
+                            });
+                        } else if (!isEditMode && seatValue !== '过道' && seatValue !== '空座') {
+                            // 原有选择模式（单选用途）
+                            seat.addEventListener('click', function() {
+                                selectPerson(seatValue);
+                            });
+                        }
                     }
                     
                     container.appendChild(seat);
                 }
             }
+            
+            // 如果是选择人员模式，更新选择状态
+            if (containerId === 'person-seat-layout' && !isEditMode) {
+                updateSelectionUI();
+            }
         }
 
         // 选择人员
         function selectPerson(personName) {
+            // 单选择模式：直接选择并关闭弹窗
             document.getElementById('person-name').value = personName;
             document.getElementById('person-select-modal').style.display = 'none';
             
@@ -3244,8 +4145,78 @@
             
             return icons[type] || 'info-circle';
         }
+
+        // 导出所有数据（完整备份）
+        function exportAllData() {
+            const allData = {
+                peopleData: peopleData,
+                seatLayout: seatLayout,
+                reasonsByCategory: reasonsByCategory,
+                exportTime: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `人数统计完整备份_${formatDateTimeForExport(new Date())}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('所有数据导出成功', 'success');
+        }
+
+        // 导入所有数据（完整恢复）
+        function importAllData(jsonData) {
+            try {
+                const importedData = JSON.parse(jsonData);
+                
+                // 验证数据格式
+                if (!importedData.peopleData || !importedData.seatLayout || !importedData.reasonsByCategory) {
+                    throw new Error('数据格式不正确');
+                }
+                
+                // 确认操作
+                if (!confirm('这将覆盖所有现有数据，确定要继续吗？')) {
+                    return;
+                }
+                
+                // 导入数据
+                peopleData = importedData.peopleData;
+                seatLayout = importedData.seatLayout;
+                reasonsByCategory = importedData.reasonsByCategory;
+                
+                // 保存到本地存储
+                saveData();
+                
+                // 更新UI
+                updateAllUI();
+                renderSeatLayout('person-seat-layout', false);
+                renderSeatLayout('edit-seat-layout', true);
+                renderReasonButtons();
+                
+                showNotification('所有数据导入成功', 'success');
+            } catch (error) {
+                console.error('导入数据失败:', error);
+                showNotification('导入失败: ' + error.message, 'error');
+            }
+        }
+
+        // 处理文件选择
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('import-json-input').value = e.target.result;
+            };
+            reader.readAsText(file);
+        }
     </script>
 </body>
-
-<!-- Mirrored from 192.168.1.205:8001/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 01 Nov 2025 06:07:31 GMT -->
 </html>
